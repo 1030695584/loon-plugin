@@ -1,57 +1,63 @@
 #!name=菜鸟去广告
-#!desc=去除菜鸟 App 首页广告、开屏广告、信息流广告、我的页推广
-#!category=广告拦截
+#!desc=过滤菜鸟广告，包含开屏、首页推广、我的页推广、消息中心推广
+#!openUrl=https://apps.apple.com/app/id951610982
+#!author=1030695584
+#!tag=去广告
+#!loon_version=3.2.4
 #!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Cainiao.png
 
 [Rule]
-# 菜鸟启动调度广告
 AND, ((URL-REGEX, "^http:\/\/.+\/amdc\/mobileDispatch"), (USER-AGENT, "Cainiao4iPhone*")), REJECT
 
-# 关联广告域名
-DOMAIN,acs4baichuan.m.taobao.com,REJECT
-DOMAIN,adsmind.ugdtimg.com,REJECT
-DOMAIN,baichuan-sdk.alicdn.com,REJECT
-DOMAIN,nbsdk-baichuan.alicdn.com,REJECT
-DOMAIN,huichuan.sm.cn,REJECT
-DOMAIN,huichuan-mc.sm.cn,REJECT
+DOMAIN, acs4baichuan.m.taobao.com, REJECT
+DOMAIN, adsmind.ugdtimg.com, REJECT
+DOMAIN, amdc.m.youku.com, REJECT
+DOMAIN, api.sm.cn, REJECT
+DOMAIN, apiv4-iyes.youku.com, REJECT
+DOMAIN, baichuan-sdk.alicdn.com, REJECT
+DOMAIN, cad.youku.com, REJECT
+DOMAIN, huichuan-mc.sm.cn, REJECT
+DOMAIN, huichuan.sm.cn, REJECT
+DOMAIN, iyes.youku.com, REJECT
+DOMAIN, m-vali.cp31.ott.cibntv.net, REJECT
+DOMAIN, mc.atm.youku.com, REJECT
+DOMAIN, nbsdk-baichuan.alicdn.com, REJECT
+DOMAIN, pre-acs.youku.com, REJECT
+DOMAIN, vali-g1.cp31.ott.cibntv.net, REJECT
+DOMAIN, vali-ugc.cp31.ott.cibntv.net, REJECT
+DOMAIN, yk-ssp.ad.youku.com, REJECT
+DOMAIN, ykad-data.youku.com, REJECT
+DOMAIN, youku-acs.m.taobao.com, REJECT
 
 [Rewrite]
-# 首页 Tabbar 营销
-^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.app\.home\.tabbar\.marketing\.get\.cn reject-dict
-^https?:\/\/(?:cn-acs\.m|mtop-bff-mtop)\.cainiao\.com\/gw\/mtop\.cainiao\.nbpresentation\.tabbar\.marketing\.get\.cn reject-dict
+^https:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.app\.home\.tabbar\.marketing\.get\.cn reject-dict
 
-# 首页广告流 / 信息流广告
-^https?:\/\/(?:cn-acs\.m|netflow-mtop|mtop-bff-mtop)\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.(?:batch\.show\.v2|click\.reply|expose\.m?reply|index)\.cn reject-dict
+^https:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.adkeyword\.get\.cn reject-dict
+^https:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.cncommunity\.my\.station\.query\.cn reject-dict
+^https:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbopen\.miniapp\.recommend\.cpc\.cn reject-dict
+^https:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbmensa\.research\.researchservice\.(?:acquire|event|close)\.cn reject-dict
+^https:\/\/(?:cn-acs\.m|netflow-mtop)\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.(?:batch\.show\.v2|click\.reply|expose\.m?reply|index)\.cn reject-dict
+^https:\/\/(?:cn-acs\.m|mtop-bff-mtop)\.cainiao\.com\/gw\/mtop\.cainiao\.nbpresentation\.(?:homepage\.merge|tabbar\.marketing)\.get\.cn reject-dict
+^https:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbcps\.presentation\.fetch\.cn reject-dict
 
-# 广告关键词 / 广告位 / CPC 推荐
-^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.adkeyword\.get\.cn reject-dict
-^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbopen\.miniapp\.recommend\.cpc\.cn reject-dict
-^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbcps\.presentation\.fetch\.cn reject-dict
+^https:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.com\.cainiao\.cnactivitycenter reject-dict
+^https:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.com\.cainiao\.cncreditmarket\.hit\.getactivityhit\.cn reject-dict
+^https:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.com\.cainiao\.longquan\.place\.getpageresourcecontent\.cn reject-dict
 
-# 活动中心 / 营销活动
-^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.com\.cainiao\.cnactivitycenter.* reject-dict
-^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.com\.cainiao\.cncreditmarket\.hit\.getactivityhit\.cn reject-dict
-^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.com\.cainiao\.longquan\.place\.getpageresourcecontent\.cn reject-dict
-^https?:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.cainiao\.adx\.flyad\.getad reject-dict
-
-# 首页 / 我的页广告兜底
-^https?:\/\/(?:guide-acs\.m\.taobao\.com|cn-acs\.m\.cainiao\.com|acs\.m\.taobao\.com)\/.*(?:ad|ads|advert|advertise|splash|startup|marketing|promotion).* reject-dict
+^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.cainiao\.adx\.flyad\.getad reject-dict
 
 [Script]
-# 移除首页推广流
-http-response ^https?:\/\/(?:cn-acs\.m|netflow-mtop|mtop-bff-mtop)\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.m?show\.cn script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_remove_ads.js, requires-body=true, tag=菜鸟首页推广流净化
+http-response ^https:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.app\.e2e\.engine\.page\.fetch\.cn script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_remove_ads.js, requires-body=true, tag=移除新版我的页面推广
 
-# 移除首页聚合卡片 / 图标气泡 / 横幅
-http-response ^https?:\/\/(?:cn-acs\.m|mtop-bff-mtop)\.cainiao\.com\/gw\/mtop\.cainiao\.nbpresentation\.(?:protocol\.homepage|homepage\.merge)\.get\.cn script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_remove_ads.js, requires-body=true, tag=菜鸟首页卡片净化
+http-response ^https:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.app\.mine\.main\.cn script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_remove_ads.js, requires-body=true, tag=移除我的页面推广
 
-# 移除首页 Tabbar 营销
-http-response ^https?:\/\/(?:cn-acs\.m|mtop-bff-mtop)\.cainiao\.com\/gw\/mtop\.cainiao\.(?:app\.home\.tabbar\.marketing|nbpresentation\.tabbar\.marketing)\.get\.cn script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_remove_ads.js, requires-body=true, tag=菜鸟首页Tabbar营销净化
+http-response ^https:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbpresentation\.(?:pickup\.empty\.page|protocol\.homepage)\.get\.cn script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_remove_ads.js, requires-body=true, tag=移除主页图标
 
-# 移除我的页推广
-http-response ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.app\.(?:mine\.main|e2e\.engine\.page\.fetch)\.cn script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_remove_ads.js, requires-body=true, tag=菜鸟我的页推广净化
+http-response ^https:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.nbfriend\.message\.conversation\.list\.cn script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_remove_ads.js, requires-body=true, tag=移除消息中心推广
 
-# 移除消息中心推广
-http-response ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.nbfriend\.message\.conversation\.list\.cn script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_remove_ads.js, requires-body=true, tag=菜鸟消息中心推广净化
+http-response ^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.mshow script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_remove_ads.js, requires-body=true, tag=移除支付宝菜鸟小程序推广
 
-[MITM]
-hostname = *-mtop.cainiao.com, cn-acs.m.cainiao.com, guide-acs.m.taobao.com, acs.m.taobao.com, acs4baichuan.m.taobao.com
+http-response ^https:\/\/(?:cn-acs\.m|netflow-mtop)\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.m?show\.cn script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_remove_ads.js, requires-body=true, tag=移除首页推广
+
+[MitM]
+hostname=*-mtop.cainiao.com, cn-acs.m.cainiao.com, guide-acs.m.taobao.com
