@@ -1,126 +1,174 @@
-// Cainiao ad cleaner for Loon
-// Focus: homepage cards, promotional banners, red dots, and ad containers.
+// Cainiao_remove_ads.js
+// Source logic referenced from public Cainiao Loon rules. Mirrored for this repository.
+// 2026-07-08
 
 const url = $request.url;
-let body = $response.body;
+if (!$response.body) $done({});
+let obj = JSON.parse($response.body);
 
-if (!body) {
-  $done({});
-}
-
-let obj;
-try {
-  obj = JSON.parse(body);
-} catch (e) {
-  $done({});
-}
-
-function removeKeys(target, keys) {
-  if (!target || typeof target !== "object") return;
-  for (const key of keys) {
-    if (Object.prototype.hasOwnProperty.call(target, key)) {
-      delete target[key];
-    }
-  }
-}
-
-function cleanCommonFlags(item) {
-  if (!item || typeof item !== "object") return item;
-  removeKeys(item, [
-    "rightIcon",
-    "bubbleText",
-    "redDot",
-    "redDotText",
-    "tips",
-    "tagIcon",
-    "cornerMark",
-    "marketingTag"
-  ]);
-  return item;
-}
-
-function isAdLike(item) {
-  const text = JSON.stringify(item || {}).toLowerCase();
-  return [
-    "aditemdetail",
-    "advrecgmtmodifiedtime",
-    "advert",
-    "advertise",
-    "promotion",
-    "activity",
-    "banner_area",
-    "banner",
-    "marketing",
-    "cpc",
-    "adx",
-    "cash",
-    "hongbao",
-    "红包",
-    "抽奖",
-    "领券",
-    "福利",
-    "会员",
-    "推广",
-    "广告"
-  ].some((k) => text.includes(k));
-}
-
-// 首页广告位接口：mtop.cainiao.guoguo.nbnetflow.ads.mshow / show
-if (/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.m?show/.test(url)) {
-  if (obj?.data && typeof obj.data === "object") {
-    const blockedIds = [
-      "10", "328", "366", "369", "498", "615", "616", "727", "793", "954",
-      "1275", "1308", "1316", "1332", "1340", "1391", "1410", "1428", "1524",
-      "1525", "1638", "1910", "29338", "29339", "32103", "33927", "36649"
+if (url.includes("/mtop.cainiao.app.e2e.engine.page.fetch")) {
+  // 新版我的页面
+  if (obj?.data?.data) {
+    const items = [
+      "activity", // 热门活动
+      "asset", // 我的权益
+      "banner", // 底部滚动横图
+      "content",
+      // "header", // 头部信息
+      // "order" // 我的订单
+      // "packageArea", // 包裹导入
+      "vip", // 会员头部
+      "wallet" // 我的钱包
     ];
-    removeKeys(obj.data, blockedIds);
-
-    if (Array.isArray(obj.data.result)) {
-      obj.data.result = obj.data.result.filter((item) => !isAdLike(item));
-      obj.data.result.forEach((item) => {
-        if (item?.materialContentMapper?.show_tips_content) {
-          item.materialContentMapper.show_tips_content = "";
+    for (let i of items) {
+      if (obj.data?.data?.[i]) {
+        delete obj.data.data[i];
+      }
+    }
+  }
+} else if (url.includes("/mtop.cainiao.app.mine.main")) {
+  // 我的页面
+  if (obj?.data) {
+    const items = [
+      "activity", // 热门活动
+      "asset", // 我的权益
+      "banner", // 底部滚动横图
+      "content"
+      // "header", // 头部信息
+      // "order" // 我的订单
+      // "packageArea", // 包裹导入
+    ];
+    for (let i of items) {
+      if (obj.data?.[i]) {
+        delete obj.data[i];
+      }
+    }
+  }
+} else if (url.includes("/mtop.cainiao.guoguo.nbnetflow.ads.show")) {
+  // 我的页面
+  if (obj?.data?.result?.length > 0) {
+    // 29338 寄件会员
+    // 29339 裹酱积分
+    // 33927 绿色能量
+    // 36649 回收旧物
+    obj.data.result = obj.data.result.filter(
+      (i) =>
+        !(
+          i?.materialContentMapper?.adItemDetail ||
+          (i?.materialContentMapper?.bgImg && i?.materialContentMapper?.advRecGmtModifiedTime) ||
+          ["common_header_banner", "entertainment", "interests", "kuaishou_banner"]?.includes(
+            i?.materialContentMapper?.group_id
+          ) ||
+          ["29338", "29339", "32103", "33927", "36649"]?.includes(i?.id)
+        )
+    );
+    for (let i of obj.data.result) {
+      if (i?.materialContentMapper?.show_tips_content) {
+        // 清空红点标记
+        i.materialContentMapper.show_tips_content = "";
+      }
+    }
+  }
+} else if (url.includes("/mtop.cainiao.guoguo.nbnetflow.ads.mshow")) {
+  // 首页
+  if (obj?.data) {
+    const items = [
+      "10", // 物流详情页 底部横图
+      "498", // 物流详情页 左上角
+      "328", // 3位数为家乡版本
+      "366",
+      "369",
+      "615",
+      "616",
+      "727",
+      "793", // 支付宝 小程序 搜索框
+      "954", // 支付宝 小程序 置顶图标
+      "1275", // 果酱即将到期
+      "1308", // 支付宝 小程序 横图
+      "1316", // 头部 banner
+      "1332", // 我的页面 横图
+      "1340", // 查快递 小妙招
+      "1391", // 支付宝 小程序 寄包裹
+      "1410", // 导入拼多多、抖音快递
+      "1428", // 幸运号
+      "1524", // 抽现金
+      "1525", // 幸运包裹
+      "1638", // 为你精选了一些商品
+      "1910" // 618促销红包
+    ];
+    for (let i of items) {
+      if (obj.data?.[i]) {
+        delete obj.data[i];
+      }
+    }
+  }
+} else if (url.includes("/mtop.cainiao.nbpresentation.pickup.empty.page.get")) {
+  // 取件页面
+  if (obj?.data?.result) {
+    let ggContent = obj.data.result.content;
+    if (ggContent?.middle?.length > 0) {
+      ggContent.middle = ggContent.middle.filter(
+        (i) =>
+          ![
+            "guoguo_pickup_empty_page_relation_add", // 添加亲友
+            "guoguo_pickup_helper_feedback", // 反馈组件
+            "guoguo_pickup_helper_tip_view" // 取件小助手
+          ]?.includes(i?.template?.name)
+      );
+    }
+  }
+} else if (url.includes("/mtop.cainiao.nbpresentation.protocol.homepage.get")) {
+  // 首页
+  if (obj?.data?.result?.dataList?.length > 0) {
+    let newLists = [];
+    for (let item of obj.data.result.dataList) {
+      if (item?.type?.includes("kingkong")) {
+        if (item?.bizData?.items?.length > 0) {
+          for (let i of item.bizData.items) {
+            i.rightIcon = null;
+            i.bubbleText = null;
+          }
         }
-      });
-    }
-  }
-}
-
-// 首页聚合接口：mtop.cainiao.nbpresentation.protocol.homepage.get / homepage.merge
-if (/mtop\.cainiao\.nbpresentation\.(protocol\.homepage|homepage\.merge)\.get/.test(url)) {
-  const list = obj?.data?.result?.dataList;
-  if (Array.isArray(list)) {
-    obj.data.result.dataList = list.filter((item) => {
-      const type = String(item?.type || "").toLowerCase();
-      if (["banner", "banner_area", "promotion", "marketing", "activity", "ad"].some((k) => type.includes(k))) {
-        return false;
+      } else if (item?.type?.includes("icons_scroll")) {
+        // 顶部图标
+        if (item?.bizData?.items?.length > 0) {
+          let newBizs = [];
+          for (let i of item.bizData.items) {
+            const lists = [
+              "appCentreMore", // 更多
+              "dzb", // 地址簿
+              "jdj", // 特惠大件
+              "kddh", // 快递电话
+              "yfjsq" // 运费计算器
+            ];
+            if (lists?.includes(i?.key)) {
+              // 白名单
+              newBizs.push(i);
+            } else {
+              continue;
+            }
+          }
+          item.bizData.items = newBizs;
+          for (let i of item.bizData.items) {
+            i.rightIcon = null;
+            i.bubbleText = null;
+          }
+        }
+      } else if (item?.type?.includes("banner_area")) {
+        // 新人福利 幸运抽奖
+        continue;
+      } else if (item?.type?.includes("promotion")) {
+        // 促销活动
+        continue;
       }
-      return !isAdLike(item);
-    });
-
-    for (const item of obj.data.result.dataList) {
-      if (Array.isArray(item?.bizData?.items)) {
-        item.bizData.items = item.bizData.items.map(cleanCommonFlags).filter((i) => !isAdLike(i));
-      }
+      newLists.push(item);
     }
+    obj.data.result.dataList = newLists;
   }
-}
-
-// 首页 Tabbar 营销接口
-if (/mtop\.cainiao\.(app\.home\.tabbar\.marketing|nbpresentation\.tabbar\.marketing)\.get/.test(url)) {
-  obj.data = {};
-}
-
-// 我的页 / 新版我的页推广
-if (/mtop\.cainiao\.app\.(mine\.main|e2e\.engine\.page\.fetch)/.test(url)) {
-  const target = obj?.data?.data || obj?.data;
-  removeKeys(target, ["activity", "asset", "banner", "content", "vip", "wallet", "marketing", "promotion"]);
-}
-
-// 消息中心推广，只保留物流消息
-if (/mtop\.nbfriend\.message\.conversation\.list/.test(url)) {
-  if (Array.isArray(obj?.data?.data)) {
-    obj.data.data = obj.data.data.filter((i) => String(i?.conversationId || "").includes("logistic_message"));
+} else if (url.includes("/mtop.nbfriend.message.conversation.list")) {
+  // 消息中心
+  if (obj?.data?.data?.length > 0) {
+    obj.data.data = obj.data.data.filter((i) => i?.conversationId?.includes("logistic_message"));
   }
 }
 
