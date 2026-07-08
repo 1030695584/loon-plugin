@@ -1,0 +1,23 @@
+#!name=菜鸟去广告
+#!desc=去除菜鸟 App 首页广告、开屏广告、信息流广告
+#!category=广告拦截
+#!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Cainiao.png
+
+[Rewrite]
+# 菜鸟首页 / 信息流广告
+^https?:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\..* reject-dict
+
+# 菜鸟广告关键词 / 广告位
+^https?:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.cainiao\.adkeyword\..* reject-dict
+
+# 菜鸟开屏 / 启动图相关广告
+^https?:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.cainiao\..*(splash|startup|launch|advert|advertise|ad)\..* reject-dict
+
+# 菜鸟广告曝光 / 点击上报
+^https?:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.cainiao\..*(expose|click|track|report).*(ad|ads|advert).* reject
+
+# 菜鸟广告资源兜底
+^https?:\/\/(guide-acs\.m\.taobao\.com|cn-acs\.m\.cainiao\.com|acs\.m\.taobao\.com)\/.*(ad|ads|advert|advertise|splash|startup).* reject-dict
+
+[MITM]
+hostname = guide-acs.m.taobao.com, cn-acs.m.cainiao.com, acs.m.taobao.com
