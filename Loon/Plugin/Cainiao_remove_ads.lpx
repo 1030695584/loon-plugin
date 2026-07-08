@@ -1,5 +1,5 @@
 #!name=菜鸟去广告
-#!desc=过滤菜鸟广告，包含开屏、首页推广、我的页推广、消息中心推广
+#!desc=过滤菜鸟广告，包含开屏、首页瀑布流、信息流、我的页、消息中心推广
 #!openUrl=https://apps.apple.com/app/id951610982
 #!author=1030695584
 #!tag=去广告
@@ -47,17 +47,16 @@ DOMAIN, youku-acs.m.taobao.com, REJECT
 ^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.cainiao\.adx\.flyad\.getad reject-dict
 
 [Script]
+# 已知页面接口
 http-response ^https:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.app\.e2e\.engine\.page\.fetch\.cn script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_remove_ads.js, requires-body=true, tag=移除新版我的页面推广
-
 http-response ^https:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.app\.mine\.main\.cn script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_remove_ads.js, requires-body=true, tag=移除我的页面推广
-
-http-response ^https:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbpresentation\.(?:pickup\.empty\.page|protocol\.homepage)\.get\.cn script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_remove_ads.js, requires-body=true, tag=移除主页图标
-
+http-response ^https:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbpresentation\.(?:pickup\.empty\.page|protocol\.homepage|homepage\.merge)\.get\.cn script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_remove_ads.js, requires-body=true, tag=移除主页图标和推广
 http-response ^https:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.nbfriend\.message\.conversation\.list\.cn script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_remove_ads.js, requires-body=true, tag=移除消息中心推广
-
 http-response ^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.mshow script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_remove_ads.js, requires-body=true, tag=移除支付宝菜鸟小程序推广
-
 http-response ^https:\/\/(?:cn-acs\.m|netflow-mtop)\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.m?show\.cn script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_remove_ads.js, requires-body=true, tag=移除首页推广
 
+# 强力兜底：菜鸟首页瀑布流接口经常变动，扩大命中所有菜鸟 mtop 响应
+http-response ^https:\/\/(?:cn-acs\.m\.cainiao\.com|guide-acs\.m\.taobao\.com|acs\.m\.taobao\.com|(?:netflow-mtop|mtop-bff-mtop)\.cainiao\.com)\/gw\/mtop\.(?:cainiao|com\.cainiao|nbfriend)\..* script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_remove_ads.js, requires-body=true, tag=菜鸟通用广告递归净化
+
 [MitM]
-hostname=*-mtop.cainiao.com, cn-acs.m.cainiao.com, guide-acs.m.taobao.com
+hostname=*-mtop.cainiao.com, cn-acs.m.cainiao.com, guide-acs.m.taobao.com, acs.m.taobao.com
