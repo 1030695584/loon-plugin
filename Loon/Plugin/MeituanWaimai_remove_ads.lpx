@@ -1,0 +1,20 @@
+#!name=美团外卖去广告
+#!desc=去除美团外卖开屏广告/视频广告/启动图
+#!category=广告拦截
+#!icon=https://raw.githubusercontent.com/qsoyq/icons/main/assets/icon/waimai.meituan.png
+
+[Rewrite]
+# 美团外卖开屏广告图片
+^https?:\/\/img\.meituan\.net\/bizad\/bizad_brandCpt_\d+\.jpg(\.webp)? reject
+
+# 美团外卖视频广告
+^https?:\/\/s3plus\.meituan\.net\/.*\/brandcpt-vedio\/.* reject-200
+
+# 美团配送/外卖启动图
+^https?:\/\/peisongapi\.meituan\.com\/client\/getInitiateImage reject-200
+
+# 美团广告素材
+^https?:\/\/flowplus\.meituan\.net\/v\d\/\w+\/linglong\/\d+\.(gif|jpg|mp4) reject
+
+[MITM]
+hostname = img.meituan.net, s3plus.meituan.net, peisongapi.meituan.com, flowplus.meituan.net
