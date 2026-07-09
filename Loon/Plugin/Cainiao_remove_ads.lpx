@@ -1,5 +1,5 @@
 #!name=菜鸟去广告
-#!desc=安全回滚版：仅拦截菜鸟广告请求，不改写响应体，避免 App 闪退
+#!desc=安全增强版：仅拦截菜鸟广告请求，不改写响应体，避免 App 闪退
 #!openUrl=https://apps.apple.com/app/id951610982
 #!author=1030695584
 #!tag=去广告
@@ -11,11 +11,21 @@
 ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.adkeyword\.get\.cn reject-dict
 ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.cncommunity\.my\.station\.query\.cn reject-dict
 ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.(batch\.show\.v2|index)\.cn reject-dict
-^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.m?show\.cn reject-dict
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.m?show\.cn reject-200
 ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbopen\.miniapp\.recommend\.cpc\.cn reject-dict
 ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbmensa\.research\.researchservice\.(acquire|event|close)\.cn reject-dict
 ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbpresentation\.(homepage\.merge|tabbar\.marketing)\.get\.cn reject-dict
 ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbpresentation\.(pickup\.empty\.page|protocol\.homepage)\.get\.cn reject-dict
+
+# 首页底部商品推广 / 底部角标
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbcps\.presentation\.fetch\.cn reject-200
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.app\.home\.v\d+\.bottom\.area reject-200
+
+# 支付宝小程序菜鸟广告兜底
+^https?:\/\/[a-zA-Z0-9_.-]+\.taobao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\. reject-200
+^https?:\/\/[a-zA-Z0-9_.-]+\.taobao\.com\/gw\/mtop\.alimama\.abyss\.unionpage\.get reject-200
+^https?:\/\/[a-zA-Z0-9_.-]+\.taobao\.com\/gw\/mtop\.cainiao\.adx\.flyad\.getad reject-200
+^https?:\/\/[a-zA-Z0-9_.-]+\.taobao\.com\/gw\/mtop\.cainiao\.nbmensa\.research\.researchservice\.consultmerge reject-200
 
 # 消息中心
 ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.nbfriend\.message\.conversation\.list\.cn reject-dict
@@ -26,4 +36,4 @@
 ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.com\.cainiao\.longquan\.place\.getpageresourcecontent\.cn reject-dict
 
 [MitM]
-hostname = cn-acs.m.cainiao.com
+hostname = cn-acs.m.cainiao.com, guide-acs.m.taobao.com, acs.m.taobao.com
