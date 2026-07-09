@@ -1,5 +1,5 @@
 #!name=菜鸟去广告
-#!desc=菜鸟 App 专用版：拦截 App 首页广告、组件推荐、埋点日志，不包含支付宝小程序规则
+#!desc=菜鸟 App 专用版：拦截 App 首页广告、大家都在逛、组件推荐、埋点日志，不包含支付宝小程序规则
 #!openUrl=https://apps.apple.com/app/id951610982
 #!author=1030695584
 #!tag=去广告
@@ -10,6 +10,9 @@
 # 菜鸟 App 日志 / 埋点
 DOMAIN,h-adashx.ut.cainiao.com,REJECT
 DOMAIN,cainiao-app-logs.cn-zhangjiakou.log.aliyuncs.com,REJECT
+
+# 菜鸟 App 首页「大家都在逛」组件源，截图中实际出现
+DOMAIN,guoguouser.cainiao.com,REJECT
 
 [Rewrite]
 # 菜鸟 App：amdc 调度
@@ -30,9 +33,11 @@ DOMAIN,cainiao-app-logs.cn-zhangjiakou.log.aliyuncs.com,REJECT
 ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbcps\.presentation\.fetch\.cn reject-200
 ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.app\.home\.v\d+\.bottom\.area reject-200
 
-# 菜鸟 App：guoguouser 首页 widget 组件，截图中实际出现，疑似瀑布流/推荐组件
-^https?:\/\/guoguouser\.cainiao\.com\/.*(?:widget|Widget|recommend|promotion|marketing|ad|ads).* reject-200
+# 菜鸟 App：「大家都在逛」瀑布流 / 首页商品组件
+^https?:\/\/guoguouser\.cainiao\.com\/.* reject-200
+^https?:\/\/guoguouser\.cainiao\.com\/.*(?:widget|Widget|recommend|promotion|marketing|ad|ads|item|goods|product).* reject-200
 ^https?:\/\/guoguouser\.cainiao\.com\/com\.cainiao\.guoguo\.guoguouser\.widget\..* reject-200
+^https?:\/\/guoguouser\.cainiao\.com\/com\.cainiao\.guoguo\.guogouser\.widget\..* reject-200
 
 # 菜鸟 App：日志 / 埋点上传
 ^https?:\/\/h-adashx\.ut\.cainiao\.com\/upload reject
