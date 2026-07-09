@@ -1,10 +1,15 @@
 #!name=菜鸟去广告
-#!desc=安全扩大版：仅拦截菜鸟广告请求，不改写响应体，避免 App 闪退
+#!desc=安全扩大版：仅拦截菜鸟广告请求、首页组件广告和日志埋点，不改写响应体，避免 App 闪退
 #!openUrl=https://apps.apple.com/app/id951610982
 #!author=1030695584
 #!tag=去广告
 #!loon_version=3.2.4
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Cainiao.png
+
+[Rule]
+# 菜鸟日志 / 埋点，截图中实际命中
+DOMAIN,h-adashx.ut.cainiao.com,REJECT
+DOMAIN,cainiao-app-logs.cn-zhangjiakou.log.aliyuncs.com,REJECT
 
 [Rewrite]
 # 首页：好物推荐 / 商品推广 / 底部标签页 / 快递详情页 / 问卷调查 / 主页图标
@@ -21,6 +26,13 @@
 # 首页底部商品推广 / 底部角标
 ^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.nbcps\.presentation\.fetch\.cn reject-200
 ^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.app\.home\.v\d+\.bottom\.area reject-200
+
+# 截图中实际出现：guoguouser 首页 widget 组件，疑似瀑布流/推荐组件
+^https?:\/\/guoguouser\.cainiao\.com\/.*(?:widget|Widget|recommend|promotion|marketing|ad|ads).* reject-200
+^https?:\/\/guoguouser\.cainiao\.com\/com\.cainiao\.guoguo\.guoguouser\.widget\..* reject-200
+
+# 截图中实际出现：菜鸟日志 / 埋点上传
+^https?:\/\/h-adashx\.ut\.cainiao\.com\/upload reject
 
 # 支付宝小程序菜鸟广告兜底
 ^https?:\/\/[a-zA-Z0-9_.-]+\.taobao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\. reject-200
