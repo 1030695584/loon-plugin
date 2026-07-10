@@ -1,0 +1,16 @@
+#!name=菜鸟接口诊断
+#!desc=仅记录菜鸟实际请求接口，不修改请求和响应；用于定位未被屏蔽的页面模块
+#!author=1030695584
+#!tag=调试
+#!loon_version=3.2.4
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Cainiao.png
+
+[Script]
+# 记录菜鸟 App 相关请求 URL
+http-request ^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/.* script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_debug.js, tag=菜鸟请求接口诊断
+
+# 记录菜鸟主要 mtop 响应是否被解密
+http-response ^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/.* script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_debug.js, requires-body=true, timeout=10, tag=菜鸟响应接口诊断
+
+[MitM]
+hostname = *.cainiao.com
