@@ -1,45 +1,48 @@
-#!name=菜鸟去广告（增强测试版）
-#!desc=针对首页大家都在逛、商品瀑布流、横幅、热词和我的页推广进行响应净化；请勿与稳定版同时启用
+#!name=菜鸟去广告（极简净化版）
+#!desc=深度净化菜鸟首页、包裹页、发现运营模块和我的页；保留查件、寄件、订单、地址簿等核心功能
 #!openUrl=https://apps.apple.com/app/id951610982
 #!author=1030695584
-#!tag=去广告,测试版
+#!tag=去广告,极简净化
 #!loon_version=3.2.4
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Cainiao.png
 
 [Rule]
-# 菜鸟日志 / 埋点
+# 日志 / 埋点
 DOMAIN,h-adashx.ut.cainiao.com,REJECT
 DOMAIN,cainiao-app-logs.cn-zhangjiakou.log.aliyuncs.com,REJECT
 
 [Rewrite]
-# 独立广告接口：直接拦截，不交给脚本
+# 独立广告接口
 ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.batch\.show\.v2\.cn reject-dict
 ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbopen\.miniapp\.recommend\.cpc\.cn reject-dict
 ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbcps\.presentation\.fetch\.cn reject-200
 ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.app\.home\.v\d+\.bottom\.area reject-200
 ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbmensa\.research\.researchservice\.(acquire|event|close|consultmerge)\.cn reject-dict
-^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.com\.cainiao\.cnactivitycenter reject-dict
+
+# 发现页 / 喂小鸟 / 红包 / 游戏化运营模块
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.com\.cainiao\.cnactivitycenter.* reject-dict
 ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.com\.cainiao\.cncreditmarket\.hit\.getactivityhit\.cn reject-dict
 ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.com\.cainiao\.longquan\.place\.getpageresourcecontent\.cn reject-dict
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.(?:com\.)?cainiao\..*(?:bird|feed|game|reward|coin|energy|welfare|activity|market|longquan).* reject-dict
+^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/.*(?:bird|feed|game|reward|coin|energy|welfare).* reject-200
 
 [Script]
-# 我的页面推广
-http-response ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.app\.e2e\.engine\.page\.fetch script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_safe_clean.js, requires-body=true, timeout=10, tag=菜鸟_我的页净化
+# 我的页：热门活动、分享赚现金、包裹账单、绿色回收、宝贝交换等
+http-response ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.app\.e2e\.engine\.page\.fetch script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_safe_clean.js, requires-body=true, timeout=10, tag=菜鸟_新版我的页极简净化
+http-response ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.app\.mine\.main script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_safe_clean.js, requires-body=true, timeout=10, tag=菜鸟_我的页极简净化
 
-# 首页中部问邻居 / 聚合内容
-http-response ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbpresentation\.homepage\.merge\.get\.cn script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_safe_clean.js, requires-body=true, timeout=10, tag=菜鸟_首页聚合净化
+# 首页 / 包裹页：空调毯、88VIP、裹酱、物换物、菜鸟问问、营销横幅和多余入口
+http-response ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbpresentation\.homepage\.merge\.get\.cn script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_safe_clean.js, requires-body=true, timeout=10, tag=菜鸟_首页聚合极简净化
+http-response ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbpresentation\.protocol\.homepage\.get\.cn script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_safe_clean.js, requires-body=true, timeout=10, tag=菜鸟_首页协议极简净化
 
-# 首页惊喜福利 / 横幅 / 营销卡片
-http-response ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbpresentation\.protocol\.homepage\.get\.cn script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_safe_clean.js, requires-body=true, timeout=10, tag=菜鸟_首页协议净化
-
-# 首页广告位 mshow
+# 广告流：我的页卡片、首页广告位、大家都在逛商品瀑布流
+http-response ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.show\.cn script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_safe_clean.js, requires-body=true, timeout=10, tag=菜鸟_我的页广告卡片净化
 http-response ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.mshow\.cn script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_safe_clean.js, requires-body=true, timeout=10, tag=菜鸟_首页广告位净化
-
-# 首页底部“大家都在逛”商品瀑布流
 http-response ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.index\.cn script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_safe_clean.js, requires-body=true, timeout=10, tag=菜鸟_大家都在逛净化
 
-# 搜索框下方今日好物热词
+# 搜索热词 / 消息中心推广
 http-response ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.adkeyword script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_safe_clean.js, requires-body=true, timeout=10, tag=菜鸟_搜索热词净化
+http-response ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.nbfriend\.message\.conversation\.list\.cn script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/Cainiao_safe_clean.js, requires-body=true, timeout=10, tag=菜鸟_消息中心净化
 
 [MitM]
-hostname = cn-acs.m.cainiao.com
+hostname = cn-acs.m.cainiao.com, h-adashx.ut.cainiao.com
