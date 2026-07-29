@@ -1,0 +1,9 @@
+# NAME: TextNow
+# AUTHOR: 1030695584
+# REPO: https://github.com/1030695584/loon-plugin
+# UPDATED: 2026-07-30
+# DESCRIPTION: TextNow domain rules for Loon
+
+DOMAIN-SUFFIX,textnow.com
+DOMAIN-SUFFIX,textnow.me
+DOMAIN-SUFFIX,enflick.com
