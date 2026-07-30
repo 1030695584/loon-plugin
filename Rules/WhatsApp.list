@@ -1,0 +1,13 @@
+# NAME: WhatsApp
+# AUTHOR: 1030695584
+# REPO: https://github.com/1030695584/loon-plugin
+# UPDATED: 2026-07-30
+# DESCRIPTION: WhatsApp domain rules for Loon
+
+DOMAIN-SUFFIX,whatsapp.com
+DOMAIN-SUFFIX,whatsapp.net
+DOMAIN-SUFFIX,whatsapp.org
+DOMAIN-SUFFIX,wa.me
+DOMAIN-SUFFIX,fbcdn.net
+DOMAIN-SUFFIX,facebook.com
+DOMAIN-SUFFIX,meta.com
