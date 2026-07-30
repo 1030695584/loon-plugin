@@ -1,0 +1,10 @@
+# NAME: Proton
+# AUTHOR: 1030695584
+# REPO: https://github.com/1030695584/loon-plugin
+# UPDATED: 2026-07-30
+# DESCRIPTION: Proton Mail domain rules for Loon
+
+DOMAIN-SUFFIX,proton.me
+DOMAIN-SUFFIX,protonmail.com
+DOMAIN-SUFFIX,protonmail.ch
+DOMAIN-SUFFIX,protonvpn.com
