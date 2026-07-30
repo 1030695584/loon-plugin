@@ -1,0 +1,10 @@
+# NAME: Yahoo
+# AUTHOR: 1030695584
+# REPO: https://github.com/1030695584/loon-plugin
+# UPDATED: 2026-07-30
+# DESCRIPTION: Yahoo domain rules for Loon
+
+DOMAIN-SUFFIX,yahoo.com
+DOMAIN-SUFFIX,yahoo.net
+DOMAIN-SUFFIX,yimg.com
+DOMAIN-SUFFIX,yahooapis.com
