@@ -1,13 +1,10 @@
 #!name=美团外卖去广告
-#!desc=去除美团外卖开屏广告/视频广告/启动图
+#!desc=通过响应净化去除美团外卖开屏广告，避免白屏倒计时
 #!category=广告拦截
 #!icon=https://raw.githubusercontent.com/qsoyq/icons/main/assets/icon/waimai.meituan.png
 
 [Rewrite]
-# 美团外卖原生开屏广告配置（核心）
-^https?:\/\/wmapi\.meituan\.com\/api\/v\d+\/(loadInfo|openscreen|startpicture)(\?.*)?$ reject-dict
-
-# 美团外卖开屏广告图片
+# 美团外卖开屏广告图片（兼容旧版本）
 ^https?:\/\/img\.meituan\.net\/bizad\/bizad_brandCpt_\d+\.jpg(\.webp)?(\?.*)?$ reject
 ^https?:\/\/p\d+\.meituan\.net\/(bizad|wmbanner|brandCpt)\/.* reject
 
@@ -19,6 +16,10 @@
 
 # 美团广告素材
 ^https?:\/\/(s3plus|flowplus)\.meituan\.net\/v\d+\/\w+\/linglong\/\w+\.(gif|jpg|jpeg|png|mp4)(\?.*)?$ reject
+
+[Script]
+# 核心：保留接口结构，仅清空 data.startpicture.ad / mk，避免广告壳白屏倒计时
+http-response ^https?:\/\/wmapi\.meituan\.com\/api\/v\d+\/(loadInfo|openscreen|startpicture)(\?.*)?$ script-path=https://raw.githubusercontent.com/1030695584/loon-plugin/main/Loon/Script/MeituanWaimai_remove_ads.js, requires-body=true, timeout=10, tag=美团外卖_开屏响应净化
 
 [MITM]
 hostname = wmapi.meituan.com, img.meituan.net, p*.meituan.net, s3plus.meituan.net, peisongapi.meituan.com, flowplus.meituan.net
