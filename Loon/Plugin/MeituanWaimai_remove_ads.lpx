@@ -1,21 +1,20 @@
-#!name=美团外卖 - MEITUANWM
-#!desc=美团外卖-外卖订餐,送啥都快
-#!author=zirawell[https://github.com/zirawell]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://apps.apple.com/app/id737310995
-#!bundleId=com.meituan.itakeaway
-#!tag=去广告
-#!basedOn=iOS
-#!surge_version=5.14.2(Build3405,SDK18.2)
-#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
-#!date=2025-07-08
+#!name=美团外卖去广告
+#!desc=去除美团外卖开屏广告/视频广告/启动图
+#!category=广告拦截
+#!icon=https://raw.githubusercontent.com/qsoyq/icons/main/assets/icon/waimai.meituan.png
 
 [Rewrite]
-^https?:\/\/wmapi\.meituan\.com\/api\/v\d+\/(?>loadInfo|openscreen|startpicture) - reject
-^https?:\/\/p\d\.meituan\.net\/cell - reject
-^https?:\/\/s3plus\.meituan\.net\/v\d\/mss_\w+\/goku\/(?>lottie|lucency) mock-response-body data-type=tiny-gif status-code=200
+# 美团外卖开屏广告图片
+^https?:\/\/img\.meituan\.net\/bizad\/bizad_brandCpt_\d+\.jpg(\.webp)? reject
+
+# 美团外卖视频广告
+^https?:\/\/s3plus\.meituan\.net\/.*\/brandcpt-vedio\/.* reject-200
+
+# 美团配送/外卖启动图
+^https?:\/\/peisongapi\.meituan\.com\/client\/getInitiateImage reject-200
+
+# 美团广告素材
+^https?:\/\/flowplus\.meituan\.net\/v\d\/\w+\/linglong\/\d+\.(gif|jpg|mp4) reject
 
 [MITM]
-hostname = wmapi.meituan.com, p*.meituan.net, s3plus.meituan.net
-
+hostname = img.meituan.net, s3plus.meituan.net, peisongapi.meituan.com, flowplus.meituan.net
