@@ -4,20 +4,21 @@
 #!icon=https://raw.githubusercontent.com/qsoyq/icons/main/assets/icon/waimai.meituan.png
 
 [Rewrite]
+# 美团外卖原生开屏广告配置（核心）
+^https?:\/\/wmapi\.meituan\.com\/api\/v\d+\/(loadInfo|openscreen|startpicture)(\?.*)?$ reject-dict
+
 # 美团外卖开屏广告图片
-^https?:\/\/img\.meituan\.net\/bizad\/bizad_brandCpt_\d+\.jpg(\.webp)? reject
+^https?:\/\/img\.meituan\.net\/bizad\/bizad_brandCpt_\d+\.jpg(\.webp)?(\?.*)?$ reject
+^https?:\/\/p\d+\.meituan\.net\/(bizad|wmbanner|brandCpt)\/.* reject
 
-# 美团外卖旧版视频广告
+# 美团外卖旧版开屏视频广告
 ^https?:\/\/s3plus\.meituan\.net\/.*\/brandcpt-vedio\/.* reject-200
-
-# 美团外卖新版开屏视频广告
-^https?:\/\/s3plus\.meituan\.net\/.*\/goku\/lucency\/[^\/?]+-video\.mp4(?:\?.*)?$ reject-200
 
 # 美团配送/外卖启动图
 ^https?:\/\/peisongapi\.meituan\.com\/client\/getInitiateImage reject-200
 
 # 美团广告素材
-^https?:\/\/flowplus\.meituan\.net\/v\d\/\w+\/linglong\/\d+\.(gif|jpg|mp4) reject
+^https?:\/\/(s3plus|flowplus)\.meituan\.net\/v\d+\/\w+\/linglong\/\w+\.(gif|jpg|jpeg|png|mp4)(\?.*)?$ reject
 
 [MITM]
-hostname = img.meituan.net, s3plus.meituan.net, peisongapi.meituan.com, flowplus.meituan.net
+hostname = wmapi.meituan.com, img.meituan.net, p*.meituan.net, s3plus.meituan.net, peisongapi.meituan.com, flowplus.meituan.net
