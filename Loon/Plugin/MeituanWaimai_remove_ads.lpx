@@ -1,7 +1,10 @@
 #!name=美团外卖去广告
-#!desc=去除美团外卖开屏广告/视频广告/启动图
+#!desc=去除美团外卖开屏广告、视频广告及启动图
 #!category=广告拦截
 #!icon=https://raw.githubusercontent.com/qsoyq/icons/main/assets/icon/waimai.meituan.png
+#!author=Release_wei[https://github.com/1030695584]
+#!homepage=https://github.com/1030695584/loon-plugin
+#!date=2026-08-06
 
 [Rewrite]
 # 美团外卖开屏广告图片
