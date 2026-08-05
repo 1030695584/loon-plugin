@@ -7,8 +7,11 @@
 # 美团外卖开屏广告图片
 ^https?:\/\/img\.meituan\.net\/bizad\/bizad_brandCpt_\d+\.jpg(\.webp)? reject
 
-# 美团外卖视频广告
+# 美团外卖旧版视频广告
 ^https?:\/\/s3plus\.meituan\.net\/.*\/brandcpt-vedio\/.* reject-200
+
+# 美团外卖新版开屏视频广告
+^https?:\/\/s3plus\.meituan\.net\/.*\/goku\/lucency\/[^\/?]+-video\.mp4(?:\?.*)?$ reject-200
 
 # 美团配送/外卖启动图
 ^https?:\/\/peisongapi\.meituan\.com\/client\/getInitiateImage reject-200
