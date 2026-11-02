@@ -1,0 +1,28 @@
+# NAME: MetaMuse
+# AUTHOR: 1030695584
+# REPO: https://github.com/1030695584/loon-plugin
+# UPDATED: 2026-11-03
+# DESCRIPTION: Meta AI, Muse, Meta account login, and related Meta app domains for Loon.
+# NOTE: Remote Rule format: choose your US proxy policy in Loon.
+
+# Meta AI and Muse
+DOMAIN-SUFFIX,muse.ai
+DOMAIN-SUFFIX,meta.ai
+DOMAIN-SUFFIX,meta.com
+
+# Meta account, Facebook login and shared resources
+DOMAIN-SUFFIX,facebook.com
+DOMAIN-SUFFIX,facebook.net
+DOMAIN-SUFFIX,fbcdn.net
+DOMAIN-SUFFIX,fbsbx.com
+DOMAIN-SUFFIX,fb.com
+
+# Related Meta apps (can be removed if not needed)
+DOMAIN-SUFFIX,instagram.com
+DOMAIN-SUFFIX,cdninstagram.com
+DOMAIN-SUFFIX,whatsapp.com
+DOMAIN-SUFFIX,whatsapp.net
+DOMAIN-SUFFIX,wa.me
+DOMAIN-SUFFIX,messenger.com
+DOMAIN-SUFFIX,threads.net
+DOMAIN-SUFFIX,threads.com
