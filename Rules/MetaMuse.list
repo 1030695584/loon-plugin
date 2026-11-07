@@ -1,8 +1,8 @@
 # NAME: MetaMuse
 # AUTHOR: 1030695584
 # REPO: https://github.com/1030695584/loon-plugin
-# UPDATED: 2026-11-03
-# DESCRIPTION: Meta AI, Muse, Meta account login, and related Meta app domains for Loon.
+# UPDATED: 2026-11-07
+# DESCRIPTION: Meta AI, Muse, Claude and related service domain / IP rules for Loon and Mihomo.
 # NOTE: Remote Rule format: choose your US proxy policy in Loon.
 
 # Meta AI and Muse
@@ -27,3 +27,37 @@ DOMAIN-SUFFIX,wa.me
 DOMAIN-SUFFIX,messenger.com
 DOMAIN-SUFFIX,threads.net
 DOMAIN-SUFFIX,threads.com
+
+# Claude: Core domains
+DOMAIN-SUFFIX,anthropic.com
+DOMAIN-SUFFIX,claude.ai
+DOMAIN-SUFFIX,claude.com
+DOMAIN-SUFFIX,clau.de
+DOMAIN-SUFFIX,claudemcpclient.com
+DOMAIN-SUFFIX,claudemcpcontent.com
+DOMAIN-SUFFIX,claudeusercontent.com
+
+# Claude: CDN and static resources
+DOMAIN,servd-anthropic-website.b-cdn.net
+DOMAIN,anthropic.com.cdn.cloudflare.net
+
+# Claude: Authentication and content
+DOMAIN,anthropic.auth0.com
+DOMAIN,anthropic-com.ghost.io
+
+# Claude: Monitoring / telemetry (shared third-party services)
+DOMAIN-SUFFIX,sentry.io
+DOMAIN-SUFFIX,statsigapi.net
+DOMAIN,browser-intake-us5-datadoghq.com
+DOMAIN-KEYWORD,datadog
+DOMAIN-KEYWORD,sift
+
+# Claude: Support / third-party widgets (shared services)
+DOMAIN-SUFFIX,intercom.io
+DOMAIN-SUFFIX,intercomcdn.com
+DOMAIN,cdn.usefathom.com
+
+# Claude: IP / ASN fallback
+IP-CIDR,160.79.104.0/21,no-resolve
+IP-CIDR6,2607:6bc0::/32,no-resolve
+IP-ASN,399358,no-resolve
